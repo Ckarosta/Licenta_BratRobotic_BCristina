@@ -1,6 +1,10 @@
+Lucrare de licență: BRAȚ ROBOTIC PENTRU SORTAREA OBIECTELOR CU MONITORIZARE LA DISTANȚĂ
+---------------------------
+
 Candidat: Cristina BALAN
 
 Coordonator științific: Ș.l.dr.ing. Ana Maria DAN
+
 
 Acest proiect permite controlul unui braț robotic cu sortare după culori.
 Sistemul folosește 3 componente software principale:
@@ -10,7 +14,7 @@ Sistemul folosește 3 componente software principale:
 
 Adresa de GitHub
 -------------------------
-
+https://github.com/Ckarosta/Licenta_BratRobotic_BCristina
 
 Pașii pentru rulare
 --------------------
