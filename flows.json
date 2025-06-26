@@ -1,0 +1,979 @@
+[
+    {
+        "id": "652d83c5d9f6bf14",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": true,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "ccc97efae2bd321f",
+        "type": "mqtt in",
+        "z": "652d83c5d9f6bf14",
+        "name": "Culoare obiect",
+        "topic": "brat/culoare",
+        "qos": "0",
+        "datatype": "json",
+        "broker": "mqtt_broker_local",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 130,
+        "y": 140,
+        "wires": [
+            [
+                "9d3e4162eb54f63b"
+            ]
+        ]
+    },
+    {
+        "id": "10aabec721dbbada",
+        "type": "function",
+        "z": "652d83c5d9f6bf14",
+        "name": "Contor culori",
+        "func": "// // //let color = msg.payload.color;\n// // let color = msg.payload.color?.toLowerCase();\n\n// // let counts = flow.get(\"counts\") || { Red: 0, Green: 0, Blue: 0 };\n\n// // if (counts[color] !== undefined) {\n// //   counts[color]++;\n// //   flow.set(\"counts\", counts);\n// // }\n\n// // return [\n// //   { payload: counts.Red },\n// //   { payload: counts.Green },\n// //   { payload: counts.Blue }\n// // ];\n\n// let colorLine = msg.payload;\n\n// if (typeof colorLine === \"string\" && colorLine.startsWith(\"COLOR:\")) {\n//     let color = colorLine.split(\":\")[1].trim().toUpperCase();\n\n//     let counts = flow.get(\"counts\") || { Red: 0, Green: 0, Blue: 0, Yellow:0, Violet:0, Orange:0, Black:0, White:0 };\n\n//     if (color === \"RED\") counts.Red++;\n//     else if (color === \"GREEN\") counts.Green++;\n//     else if (color === \"BLUE\") counts.Blue++;\n//     else if (color === \"YELLOW\") counts.Yellow++;\n//     else if (color === \"ORANGE\") counts.Orange++;\n//     else if (color === \"VIOLET\") counts.Violet++;\n//     else if (color === \"BLACK\") counts.Black++;\n//     else if (color === \"WHITE\") counts.White++;\n\n//     flow.set(\"counts\", counts);\n\n//     return [\n//         { payload: counts.Red },   // output 1: Red\n//         { payload: counts.Green }, // output 2: Green\n//         { payload: counts.Blue },  // output 3: Blue\n//         { payload: counts.Yellow },\n//         { payload: counts.Orange },\n//         { payload: counts.Violet },\n//         { payload: counts.Black },\n//         { payload: counts.White },\n//         { payload: [ {\n//             series: [\"Detectate\"],\n//             data: [[\n//   counts.Red || 0,\n//   counts.Green || 0,\n//   counts.Blue || 0,\n//   counts.Yellow || 0,\n//   counts.Orange || 0,\n//   counts.Violet || 0,\n//   counts.Black || 0,\n//   counts.White || 0\n// ]],\n\n//             labels: [\"Red\", \"Green\", \"Blue\", \"Yellow\", \"Orange\", \"Violet\", \"Black\", \"White\"]\n//         } ] }                      // output 4: chart\n//     ];\n// }\n\n// return null;\n\nlet colorLine = msg.payload;\n\nif (typeof colorLine === \"string\" && colorLine.startsWith(\"COLOR:\")) {\n    let color = colorLine.split(\":\")[1].trim().toUpperCase();\n\n    let counts = flow.get(\"counts\") || {\n        Red: 0, Green: 0, Blue: 0,\n        Yellow: 0, Orange: 0, Violet: 0,\n        Black: 0, White: 0\n    };\n\n    if (color === \"RED\") counts.Red++;\n    else if (color === \"GREEN\") counts.Green++;\n    else if (color === \"BLUE\") counts.Blue++;\n    else if (color === \"YELLOW\") counts.Yellow++;\n    else if (color === \"ORANGE\") counts.Orange++;\n    else if (color === \"VIOLET\") counts.Violet++;\n    else if (color === \"BLACK\") counts.Black++;\n    else if (color === \"WHITE\") counts.White++;\n\n    flow.set(\"counts\", counts);\n\n    return [\n        { payload: counts.Red },\n        { payload: counts.Green },\n        { payload: counts.Blue },\n        { payload: counts.Yellow },\n        { payload: counts.Orange },\n        { payload: counts.Violet },\n        { payload: counts.Black },\n        { payload: counts.White },\n        {\n            payload: [{\n                series: [\"Detectate\"],\n                data: [[\n                    counts.Red,\n                    counts.Green,\n                    counts.Blue,\n                    counts.Yellow,\n                    counts.Orange,\n                    counts.Violet,\n                    counts.Black,\n                    counts.White\n                ]],\n                labels: [\"Red\", \"Green\", \"Blue\", \"Yellow\", \"Orange\", \"Violet\", \"Black\", \"White\"]\n            }]\n        }\n    ];\n}\n\nreturn null;\n",
+        "outputs": 9,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 330,
+        "y": 260,
+        "wires": [
+            [
+                "6a0d843f110bfcfc"
+            ],
+            [
+                "7a1efec0f76f4d9a"
+            ],
+            [
+                "ca3d2c147aaebc2a"
+            ],
+            [
+                "72d35dee85c1f13b"
+            ],
+            [
+                "554564937c20e721"
+            ],
+            [
+                "575f8aeeb7fbc673"
+            ],
+            [
+                "dd8f88a8584b8e6f"
+            ],
+            [],
+            [
+                "2e4845c3c40c85cb",
+                "89e7f9e5e6d53323"
+            ]
+        ]
+    },
+    {
+        "id": "6a0d843f110bfcfc",
+        "type": "ui_text",
+        "z": "652d83c5d9f6bf14",
+        "group": "group_culori",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "Red Count",
+        "label": "Red",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": "",
+        "color": "#000000",
+        "x": 630,
+        "y": 140,
+        "wires": [],
+        "info": "{\n  \"type\": \"ui_text\",\n  \"name\": \"Red Count\",\n  \"label\": \"Red\",\n  \"group\": \"group_culori\",\n  \"order\": 1,\n  \"format\": \"{{msg.payload}}\",\n  \"layout\": \"row-spread\"\n}\n"
+    },
+    {
+        "id": "7a1efec0f76f4d9a",
+        "type": "ui_text",
+        "z": "652d83c5d9f6bf14",
+        "group": "group_culori",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "name": "Green Count",
+        "label": "Green",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": "",
+        "color": "#000000",
+        "x": 630,
+        "y": 200,
+        "wires": [],
+        "info": "{\n  \"type\": \"ui_text\",\n  \"name\": \"Green Count\",\n  \"label\": \"Green\",\n  \"group\": \"group_culori\",\n  \"order\": 1,\n  \"format\": \"{{msg.payload}}\",\n  \"layout\": \"row-spread\"\n}\n"
+    },
+    {
+        "id": "ca3d2c147aaebc2a",
+        "type": "ui_text",
+        "z": "652d83c5d9f6bf14",
+        "group": "group_culori",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "name": "Blue Count",
+        "label": "Blue",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": "",
+        "color": "#000000",
+        "x": 630,
+        "y": 260,
+        "wires": [],
+        "info": "{\n  \"type\": \"ui_text\",\n  \"name\": \"Blue Count\",\n  \"label\": \"Blue\",\n  \"group\": \"group_culori\",\n  \"order\": 1,\n  \"format\": \"{{msg.payload}}\",\n  \"layout\": \"row-spread\"\n}\n"
+    },
+    {
+        "id": "ca0d83cae5663f11",
+        "type": "function",
+        "z": "652d83c5d9f6bf14",
+        "name": "function 1",
+        "func": "let counts = flow.get(\"counts\") || { Red: 0, Green: 0, Blue: 0, Yellow:0, Violet:0, Orange:0, Black:0, White:0 };\n\nmsg.payload = [\n  { series: [\"Culori\"], data: [[counts.Red || 0, counts.Green || 0, counts.Blue || 0, counts.Yellow || 0, counts.Orange || 0, counts.Violet || 0, , counts.Black || 0, , counts.White || 0]], \n  labels: [\"Red\", \"Green\", \"Blue\", \"Yellow\", \"Orange\", \"Violet\", \"Black\", \"White\"] }\n];\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 760,
+        "y": 720,
+        "wires": [
+            [
+                "d14f4a9e0914aad6"
+            ]
+        ]
+    },
+    {
+        "id": "d14f4a9e0914aad6",
+        "type": "function",
+        "z": "652d83c5d9f6bf14",
+        "name": "function 3",
+        "func": "let counts = flow.get(\"counts\") || { Red: 0, Green: 0, Blue: 0, Yellow:0, Violet:0, Orange:0, Black:0, White:0 };\n\nmsg.payload = [\n  {\n    series: [\"Detectate\"],\n    data: [[counts.Red, counts.Green, counts.Blue, counts.Yellow, counts.Orange, counts.Violet, counts.Black, counts.White]],\n    labels: [\"Red\", \"Green\", \"Blue\", \"Yellow\", \"Orange\", \"Violet\", \"Black\", \"White\"]\n  }\n];\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 920,
+        "y": 720,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "75dcda3e93207920",
+        "type": "ui_button",
+        "z": "652d83c5d9f6bf14",
+        "name": "Reset_btn",
+        "group": "group_culori",
+        "order": 11,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Reset",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 110,
+        "y": 600,
+        "wires": [
+            [
+                "53a30c924fae1021"
+            ]
+        ]
+    },
+    {
+        "id": "53a30c924fae1021",
+        "type": "function",
+        "z": "652d83c5d9f6bf14",
+        "name": "Reset count",
+        "func": "// let counts = { Red: 0, Green: 0, Blue: 0 };\n// flow.set(\"counts\", counts);\n\n// return [\n//   { payload: 0 },  // pentru Red\n//   { payload: 0 },  // pentru Green\n//   { payload: 0 },  // pentru Blue\n//   msg              // pentru grafic\n// ];\nlet counts = {\n  Red: 0, Green: 0, Blue: 0,\n  Yellow: 0, Orange: 0,\n  Violet: 0, Black: 0, White: 0\n};\n\nflow.set(\"counts\", counts);\n\nreturn [\n  { payload: 0 }, // Red\n  { payload: 0 }, // Green\n  { payload: 0 }, // Blue\n  { payload: 0 }, // Yellow\n  { payload: 0 }, // Orange\n  { payload: 0 }, // Violet\n  { payload: 0 }, // Black\n  { payload: 0 }, // White\n  {\n    payload: [{\n      series: [\"Detectate\"],\n      data: [[0, 0, 0, 0, 0, 0, 0, 0]],\n      labels: [\"Red\", \"Green\", \"Blue\", \"Yellow\", \"Orange\", \"Violet\", \"Black\", \"White\"]\n    }]\n  }\n];\n",
+        "outputs": 9,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 310,
+        "y": 600,
+        "wires": [
+            [
+                "6a0d843f110bfcfc"
+            ],
+            [
+                "7a1efec0f76f4d9a"
+            ],
+            [
+                "ca3d2c147aaebc2a"
+            ],
+            [
+                "72d35dee85c1f13b"
+            ],
+            [
+                "554564937c20e721"
+            ],
+            [
+                "575f8aeeb7fbc673"
+            ],
+            [
+                "dd8f88a8584b8e6f"
+            ],
+            [],
+            [
+                "2e4845c3c40c85cb",
+                "89e7f9e5e6d53323"
+            ]
+        ]
+    },
+    {
+        "id": "9d3e4162eb54f63b",
+        "type": "debug",
+        "z": "652d83c5d9f6bf14",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 320,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "45fb223865ad5ff3",
+        "type": "ui_button",
+        "z": "652d83c5d9f6bf14",
+        "name": "",
+        "group": "group_culori",
+        "order": 12,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "START",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "START",
+        "payloadType": "str",
+        "topic": "brat/comanda",
+        "topicType": "msg",
+        "x": 240,
+        "y": 880,
+        "wires": [
+            [
+                "7ce58107214f51ad",
+                "914af2bd99d311cb",
+                "59e944c01bbd05da"
+            ]
+        ]
+    },
+    {
+        "id": "1f53f6d63d082fbb",
+        "type": "ui_button",
+        "z": "652d83c5d9f6bf14",
+        "name": "",
+        "group": "group_culori",
+        "order": 13,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "STOP",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "STOP",
+        "payloadType": "str",
+        "topic": "brat/comanda",
+        "topicType": "msg",
+        "x": 250,
+        "y": 940,
+        "wires": [
+            [
+                "7ce58107214f51ad",
+                "cf4b671094e60603",
+                "bf407e31a5fd4610"
+            ]
+        ]
+    },
+    {
+        "id": "914af2bd99d311cb",
+        "type": "debug",
+        "z": "652d83c5d9f6bf14",
+        "name": "debug 3",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 460,
+        "y": 780,
+        "wires": []
+    },
+    {
+        "id": "cf4b671094e60603",
+        "type": "debug",
+        "z": "652d83c5d9f6bf14",
+        "name": "debug 4",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 440,
+        "y": 1020,
+        "wires": []
+    },
+    {
+        "id": "7ce58107214f51ad",
+        "type": "mqtt out",
+        "z": "652d83c5d9f6bf14",
+        "name": "",
+        "topic": "brat/comanda",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "mqtt_broker_local",
+        "x": 440,
+        "y": 900,
+        "wires": []
+    },
+    {
+        "id": "59e944c01bbd05da",
+        "type": "serial out",
+        "z": "652d83c5d9f6bf14",
+        "name": "",
+        "serial": "093f4383d068928a",
+        "x": 500,
+        "y": 840,
+        "wires": []
+    },
+    {
+        "id": "bf407e31a5fd4610",
+        "type": "serial out",
+        "z": "652d83c5d9f6bf14",
+        "name": "",
+        "serial": "093f4383d068928a",
+        "x": 500,
+        "y": 960,
+        "wires": []
+    },
+    {
+        "id": "7c72abe7def34b9b",
+        "type": "serial in",
+        "z": "652d83c5d9f6bf14",
+        "name": "",
+        "serial": "093f4383d068928a",
+        "x": 130,
+        "y": 60,
+        "wires": [
+            [
+                "a8d2039746c41820",
+                "10aabec721dbbada"
+            ]
+        ]
+    },
+    {
+        "id": "a8d2039746c41820",
+        "type": "debug",
+        "z": "652d83c5d9f6bf14",
+        "name": "debug 5",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 320,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "72d35dee85c1f13b",
+        "type": "ui_text",
+        "z": "652d83c5d9f6bf14",
+        "group": "group_culori",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "Yellow Count",
+        "label": "Yellow",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": "",
+        "color": "#000000",
+        "x": 810,
+        "y": 240,
+        "wires": [],
+        "info": "{\n  \"type\": \"ui_text\",\n  \"name\": \"Yellow Count\",\n  \"label\": \"Yellow\",\n  \"group\": \"group_culori\",\n  \"order\": 1,\n  \"format\": \"{{msg.payload}}\",\n  \"layout\": \"row-spread\"\n}\n"
+    },
+    {
+        "id": "554564937c20e721",
+        "type": "ui_text",
+        "z": "652d83c5d9f6bf14",
+        "group": "group_culori",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "Orange Count",
+        "label": "Orange",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": "",
+        "color": "#000000",
+        "x": 820,
+        "y": 300,
+        "wires": [],
+        "info": "{\n  \"type\": \"ui_text\",\n  \"name\": \"Orange Count\",\n  \"label\": \"Orange\",\n  \"group\": \"group_culori\",\n  \"order\": 1,\n  \"format\": \"{{msg.payload}}\",\n  \"layout\": \"row-spread\"\n}\n"
+    },
+    {
+        "id": "575f8aeeb7fbc673",
+        "type": "ui_text",
+        "z": "652d83c5d9f6bf14",
+        "group": "group_culori",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "Violet Count",
+        "label": "Violet",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": "",
+        "color": "#000000",
+        "x": 810,
+        "y": 360,
+        "wires": [],
+        "info": "{\n  \"type\": \"ui_text\",\n  \"name\": \"Violet Count\",\n  \"label\": \"Violet\",\n  \"group\": \"group_culori\",\n  \"order\": 1,\n  \"format\": \"{{msg.payload}}\",\n  \"layout\": \"row-spread\"\n}\n"
+    },
+    {
+        "id": "dd8f88a8584b8e6f",
+        "type": "ui_text",
+        "z": "652d83c5d9f6bf14",
+        "group": "group_culori",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "Black Count",
+        "label": "Black",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": "",
+        "color": "#000000",
+        "x": 810,
+        "y": 420,
+        "wires": [],
+        "info": "{\n  \"type\": \"ui_text\",\n  \"name\": \"Black Count\",\n  \"label\": \"Black\",\n  \"group\": \"group_culori\",\n  \"order\": 1,\n  \"format\": \"{{msg.payload}}\",\n  \"layout\": \"row-spread\"\n}\n"
+    },
+    {
+        "id": "89e7f9e5e6d53323",
+        "type": "ui_chart",
+        "z": "652d83c5d9f6bf14",
+        "name": "",
+        "group": "group_culori",
+        "order": 6,
+        "width": 0,
+        "height": 0,
+        "label": "Statistici culori bar chart",
+        "chartType": "bar",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#f82a2a",
+            "#24a34a",
+            "#1b77da",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 810,
+        "y": 500,
+        "wires": [
+            []
+        ],
+        "info": "{\n  \"type\": \"ui_chart\",\n  \"name\": \"Statistici culori\",\n  \"group\": \"group_culori\",\n  \"order\": 9,\n  \"label\": \"Statistici culori\",\n  \"chartType\": \"bar\",\n  \"legend\": false,\n  \"xformat\": \"auto\",\n  \"interpolate\": \"linear\",\n  \"nodata\": \"\",\n  \"dot\": false,\n  \"ymin\": 0,\n  \"removeOlder\": 1,\n  \"removeOlderUnit\": \"3600\",\n  \"colors\": [\n    \"#ff0000\", \"#00ff00\", \"#0000ff\", \"#ffff00\",\n    \"#ffa500\", \"#800080\", \"#000000\", \"#ffffff\"\n  ],\n  \"outputs\": 1,\n  \"useOneColor\": false\n}\n"
+    },
+    {
+        "id": "2e4845c3c40c85cb",
+        "type": "ui_chart",
+        "z": "652d83c5d9f6bf14",
+        "name": "",
+        "group": "group_culori",
+        "order": 6,
+        "width": 0,
+        "height": 0,
+        "label": "Statistici culori pie chart",
+        "chartType": "pie",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "0",
+        "ymax": "10",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#f82a2a",
+            "#24a34a",
+            "#1b77da",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 810,
+        "y": 560,
+        "wires": [
+            []
+        ],
+        "info": "{\n  \"type\": \"ui_chart\",\n  \"name\": \"Statistici culori\",\n  \"group\": \"group_culori\",\n  \"order\": 9,\n  \"label\": \"Statistici culori\",\n  \"chartType\": \"bar\",\n  \"legend\": false,\n  \"xformat\": \"auto\",\n  \"interpolate\": \"linear\",\n  \"nodata\": \"\",\n  \"dot\": false,\n  \"ymin\": 0,\n  \"removeOlder\": 1,\n  \"removeOlderUnit\": \"3600\",\n  \"colors\": [\n    \"#ff0000\", \"#00ff00\", \"#0000ff\", \"#ffff00\",\n    \"#ffa500\", \"#800080\", \"#000000\", \"#ffffff\"\n  ],\n  \"outputs\": 1,\n  \"useOneColor\": false\n}\n"
+    },
+    {
+        "id": "fbc249e71a70950e",
+        "type": "ui_dropdown",
+        "z": "652d83c5d9f6bf14",
+        "name": "",
+        "label": "Numar cosuri",
+        "tooltip": "",
+        "place": "Select option",
+        "group": "group_culori",
+        "order": 23,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "multiple": false,
+        "options": [
+            {
+                "label": "1",
+                "value": "1",
+                "type": "str"
+            },
+            {
+                "label": "2",
+                "value": "2",
+                "type": "str"
+            },
+            {
+                "label": "3",
+                "value": "3",
+                "type": "str"
+            }
+        ],
+        "payload": "",
+        "topic": "topic",
+        "topicType": "msg",
+        "className": "",
+        "x": 650,
+        "y": 1060,
+        "wires": [
+            [
+                "b0fa190b513a20f2"
+            ]
+        ]
+    },
+    {
+        "id": "b0fa190b513a20f2",
+        "type": "function",
+        "z": "652d83c5d9f6bf14",
+        "name": "function 6",
+        "func": "let nrCosuri = flow.get(\"nrCosuri\") || 3;\nlet culoare1 = flow.get(\"culoare1\") || \"RED\";\nlet culoare2 = flow.get(\"culoare2\") || \"GREEN\";\nlet culoare3 = flow.get(\"culoare3\") || \"BLUE\";\n\nlet culori = [culoare1];\n\nif (nrCosuri >= 2) culori.push(culoare2);\nif (nrCosuri >= 3) culori.push(culoare3);\n\nlet json = {\n  nrCosuri: nrCosuri,\n  culori: culori\n};\n\nmsg.payload = JSON.stringify(json);\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 840,
+        "y": 1060,
+        "wires": [
+            [
+                "741bc35a66511fff"
+            ]
+        ]
+    },
+    {
+        "id": "827ea91d49468b4b",
+        "type": "function",
+        "z": "652d83c5d9f6bf14",
+        "name": "Construieste configurarea",
+        "func": "let cosuri = flow.get(\"cosuri\") || {};\n\ncosuri[msg.topic] = msg.payload;\nflow.set(\"cosuri\", cosuri);\n\n// Când toate cele 3 coșuri sunt setate:\nif (cosuri.cos1 && cosuri.cos2 && cosuri.cos3) {\n  let config = {\n    nrCosuri: 3,\n    culori: [cosuri.cos1, cosuri.cos2, cosuri.cos3]\n  };\n\n  return { payload: JSON.stringify(config) };\n}\n\nreturn null;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 650,
+        "y": 1180,
+        "wires": [
+            [
+                "741bc35a66511fff",
+                "32f68f5d5e96b96c"
+            ]
+        ]
+    },
+    {
+        "id": "34449808a9bf3a77",
+        "type": "ui_dropdown",
+        "z": "652d83c5d9f6bf14",
+        "name": "",
+        "label": "Cos 1",
+        "tooltip": "",
+        "place": "Select option",
+        "group": "group_culori",
+        "order": 19,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "multiple": false,
+        "options": [
+            {
+                "label": "Red",
+                "value": "Red",
+                "type": "str"
+            },
+            {
+                "label": "Green",
+                "value": "Green",
+                "type": "str"
+            },
+            {
+                "label": "Blue",
+                "value": "Blue",
+                "type": "str"
+            },
+            {
+                "label": "Yellow",
+                "value": "Yellow",
+                "type": "str"
+            },
+            {
+                "label": "Orange",
+                "value": "Orange",
+                "type": "str"
+            },
+            {
+                "label": "Violet",
+                "value": "Violet",
+                "type": "str"
+            },
+            {
+                "label": "Black",
+                "value": "Black",
+                "type": "str"
+            },
+            {
+                "label": "White",
+                "value": "White",
+                "type": "str"
+            }
+        ],
+        "payload": "",
+        "topic": "cos1",
+        "topicType": "msg",
+        "className": "",
+        "x": 390,
+        "y": 1140,
+        "wires": [
+            [
+                "827ea91d49468b4b"
+            ]
+        ],
+        "info": "{\n  \"type\": \"ui_dropdown\",\n  \"name\": \"Cos 1\",\n  \"label\": \"Cos 1\",\n  \"group\": \"group_culori\",\n  \"order\": 12,\n  \"width\": 3,\n  \"height\": 1,\n  \"options\": [\n    { \"label\": \"RED\", \"value\": \"RED\" },\n    { \"label\": \"GREEN\", \"value\": \"GREEN\" },\n    { \"label\": \"BLUE\", \"value\": \"BLUE\" },\n    { \"label\": \"YELLOW\", \"value\": \"YELLOW\" },\n    { \"label\": \"ORANGE\", \"value\": \"ORANGE\" },\n    { \"label\": \"VIOLET\", \"value\": \"VIOLET\" },\n    { \"label\": \"BLACK\", \"value\": \"BLACK\" },\n    { \"label\": \"WHITE\", \"value\": \"WHITE\" }\n  ],\n  \"payload\": \"\",\n  \"topic\": \"cos1\",\n  \"payloadType\": \"str\"\n}\n"
+    },
+    {
+        "id": "c6dc69308d158c8b",
+        "type": "ui_dropdown",
+        "z": "652d83c5d9f6bf14",
+        "name": "",
+        "label": "Cos 2",
+        "tooltip": "",
+        "place": "Select option",
+        "group": "group_culori",
+        "order": 19,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "multiple": false,
+        "options": [
+            {
+                "label": "Red",
+                "value": "Red",
+                "type": "str"
+            },
+            {
+                "label": "Green",
+                "value": "Green",
+                "type": "str"
+            },
+            {
+                "label": "Blue",
+                "value": "Blue",
+                "type": "str"
+            },
+            {
+                "label": "Yellow",
+                "value": "Yellow",
+                "type": "str"
+            },
+            {
+                "label": "Orange",
+                "value": "Orange",
+                "type": "str"
+            },
+            {
+                "label": "Violet",
+                "value": "Violet",
+                "type": "str"
+            },
+            {
+                "label": "Black",
+                "value": "Black",
+                "type": "str"
+            },
+            {
+                "label": "White",
+                "value": "White",
+                "type": "str"
+            }
+        ],
+        "payload": "",
+        "topic": "cos2",
+        "topicType": "msg",
+        "className": "",
+        "x": 390,
+        "y": 1200,
+        "wires": [
+            [
+                "827ea91d49468b4b"
+            ]
+        ],
+        "info": "{\n  \"type\": \"ui_dropdown\",\n  \"name\": \"Cos 2\",\n  \"label\": \"Cos 2\",\n  \"group\": \"group_culori\",\n  \"order\": 12,\n  \"width\": 3,\n  \"height\": 1,\n  \"options\": [\n    { \"label\": \"RED\", \"value\": \"RED\" },\n    { \"label\": \"GREEN\", \"value\": \"GREEN\" },\n    { \"label\": \"BLUE\", \"value\": \"BLUE\" },\n    { \"label\": \"YELLOW\", \"value\": \"YELLOW\" },\n    { \"label\": \"ORANGE\", \"value\": \"ORANGE\" },\n    { \"label\": \"VIOLET\", \"value\": \"VIOLET\" },\n    { \"label\": \"BLACK\", \"value\": \"BLACK\" },\n    { \"label\": \"WHITE\", \"value\": \"WHITE\" }\n  ],\n  \"payload\": \"\",\n  \"topic\": \"cos1\",\n  \"payloadType\": \"str\"\n}\n"
+    },
+    {
+        "id": "a151de5ae3d34c02",
+        "type": "ui_dropdown",
+        "z": "652d83c5d9f6bf14",
+        "name": "",
+        "label": "Cos 3",
+        "tooltip": "",
+        "place": "Select option",
+        "group": "group_culori",
+        "order": 19,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "multiple": false,
+        "options": [
+            {
+                "label": "Red",
+                "value": "Red",
+                "type": "str"
+            },
+            {
+                "label": "Green",
+                "value": "Green",
+                "type": "str"
+            },
+            {
+                "label": "Blue",
+                "value": "Blue",
+                "type": "str"
+            },
+            {
+                "label": "Yellow",
+                "value": "Yellow",
+                "type": "str"
+            },
+            {
+                "label": "Orange",
+                "value": "Orange",
+                "type": "str"
+            },
+            {
+                "label": "Violet",
+                "value": "Violet",
+                "type": "str"
+            },
+            {
+                "label": "Black",
+                "value": "Black",
+                "type": "str"
+            },
+            {
+                "label": "White",
+                "value": "White",
+                "type": "str"
+            }
+        ],
+        "payload": "",
+        "topic": "cos3",
+        "topicType": "msg",
+        "className": "",
+        "x": 390,
+        "y": 1260,
+        "wires": [
+            [
+                "827ea91d49468b4b"
+            ]
+        ],
+        "info": "{\n  \"type\": \"ui_dropdown\",\n  \"name\": \"Cos 3\",\n  \"label\": \"Cos 3\",\n  \"group\": \"group_culori\",\n  \"order\": 12,\n  \"width\": 3,\n  \"height\": 1,\n  \"options\": [\n    { \"label\": \"RED\", \"value\": \"RED\" },\n    { \"label\": \"GREEN\", \"value\": \"GREEN\" },\n    { \"label\": \"BLUE\", \"value\": \"BLUE\" },\n    { \"label\": \"YELLOW\", \"value\": \"YELLOW\" },\n    { \"label\": \"ORANGE\", \"value\": \"ORANGE\" },\n    { \"label\": \"VIOLET\", \"value\": \"VIOLET\" },\n    { \"label\": \"BLACK\", \"value\": \"BLACK\" },\n    { \"label\": \"WHITE\", \"value\": \"WHITE\" }\n  ],\n  \"payload\": \"\",\n  \"topic\": \"cos3\",\n  \"payloadType\": \"str\"\n}\n"
+    },
+    {
+        "id": "741bc35a66511fff",
+        "type": "serial out",
+        "z": "652d83c5d9f6bf14",
+        "name": "",
+        "serial": "093f4383d068928a",
+        "x": 900,
+        "y": 1180,
+        "wires": []
+    },
+    {
+        "id": "32f68f5d5e96b96c",
+        "type": "debug",
+        "z": "652d83c5d9f6bf14",
+        "name": "debug 7",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 860,
+        "y": 1240,
+        "wires": []
+    },
+    {
+        "id": "mqtt_broker_local",
+        "type": "mqtt-broker",
+        "name": "Mosquitto Local",
+        "broker": "localhost",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "closeTopic": "",
+        "closePayload": "",
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": ""
+    },
+    {
+        "id": "group_culori",
+        "type": "ui_group",
+        "name": "Culori Detectate",
+        "tab": "tab_brat",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "093f4383d068928a",
+        "type": "serial-port",
+        "name": "",
+        "serialport": "/dev/ttyACM0",
+        "serialbaud": "9600",
+        "databits": 8,
+        "parity": "none",
+        "stopbits": 1,
+        "waitfor": "",
+        "dtr": "none",
+        "rts": "none",
+        "cts": "none",
+        "dsr": "none",
+        "newline": "\\n",
+        "bin": "false",
+        "out": "char",
+        "addchar": "\\n",
+        "responsetimeout": 10000
+    },
+    {
+        "id": "tab_brat",
+        "type": "ui_tab",
+        "name": "Brat Robotic",
+        "icon": "dashboard",
+        "order": 1
+    }
+]
