@@ -1,9 +1,8 @@
 #include <Servo.h>
 
-// Pinii la care sunt conectați servourile
-#define PIN_SERVO1 3   // Umăr
+#define PIN_SERVO1 3   // Umar
 #define PIN_SERVO2 5   // Cot
-#define PIN_SERVO3 6   // Încheietură
+#define PIN_SERVO3 6   // Incheietura
 #define PIN_SERVO4 9 
 
 Servo servo1;
@@ -46,7 +45,7 @@ void loop() {
       Serial.print(angle);
       Serial.println(F("°"));
     } else {
-      Serial.println(F("Comandă invalidă. Asigură-te că servo∈{1..3}, unghi∈[0..180]."));
+      Serial.println(F("Comanda invalida. Asigura-te ca servo∈{1..3}, unghi∈[0..180]"));
     }
   }
 }
