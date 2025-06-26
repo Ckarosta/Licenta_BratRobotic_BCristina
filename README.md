@@ -57,8 +57,8 @@ Ordinea pornirii
    
 Detalii utile
 -------------------
-	*Dacă folosești Mosquitto local, pornește-l cu comanda sudo systemctl start mosquitto sau instalează-l cu sudo apt install mosquitto.
- 	*Dacă nu ai date în Node-RED, verifică porturile seriale pe care Arduino și ESP32 sunt conectate.
-	*Poți folosi nodurile de debug din Node-RED pentru a vedea ce mesaje ajung în flow.
+	*Dacă folosiți Mosquitto local, porniți-l cu comanda sudo systemctl start mosquitto sau instalați-l cu sudo apt install mosquitto.
+ 	*Dacă nu aveți date în Node-RED, verificați porturile seriale pe care Arduino și ESP32 sunt conectate.
+	*Puteți folosi nodurile de debug din Node-RED pentru a vedea ce mesaje ajung în flow.
 
  
